@@ -127,37 +127,39 @@ RTK s'intercale entre vos commandes et l'IA, et renvoie une version raccourcie d
 
 </div>
 
-<div class="text-center mt-8">
+<div class="mt-8">
 
 <v-click>
 
-```mermaid {theme:'base'}
-graph LR
-    git[<b>git status</b>] --> ia[<b>40 lignes</b>] --> ai[<b>IA</b>]
-    classDef git fill:#94a3b8,stroke:#fff,color:#fff
-    classDef ia fill:#ef4444,stroke:#fff,color:#fff
-    classDef ai fill:#ef4444,stroke:#fff,color:#fff
-    git|git
-    ia|ia
-    ai|ai
-```
+<div class="text-center text-lg font-semibold mb-3">SANS RTK</div>
+
+<div class="flex justify-center items-center gap-2 md:gap-4">
+
+<div class="px-4 py-3 rounded-lg bg-slate-500 text-white font-semibold shadow">git status</div>
+<div class="text-2xl text-slate-400 select-none">──▶</div>
+<div class="px-4 py-3 rounded-lg bg-red-500 text-white font-semibold shadow">40 lignes</div>
+<div class="text-2xl text-slate-400 select-none">──▶</div>
+<div class="px-4 py-3 rounded-lg bg-red-600 text-white font-semibold shadow">IA</div>
+
+</div>
 
 </v-click>
 
 <v-click>
 
-```mermaid {theme:'base'}
-graph LR
-    git[<b>git status</b>] --> rtk[<b>RTK</b>] --> ai[<b>3 lignes</b>] --> ai2[<b>IA</b>]
-    classDef git fill:#94a3b8,stroke:#fff,color:#fff
-    classDef rtk fill:#22c55e,stroke:#fff,color:#fff
-    classDef ai fill:#f59e0b,stroke:#fff,color:#fff
-    classDef ai2 fill:#ef4444,stroke:#fff,color:#fff
-    git|git
-    rtk|rtk
-    ai|ai
-    ai2|ai2
-```
+<div class="text-center text-lg font-semibold mt-8 mb-3">AVEC RTK</div>
+
+<div class="flex justify-center items-center gap-2 md:gap-3">
+
+<div class="px-4 py-3 rounded-lg bg-slate-500 text-white font-semibold shadow">git status</div>
+<div class="text-2xl text-slate-400 select-none">──▶</div>
+<div class="px-4 py-3 rounded-lg bg-green-500 text-white font-semibold shadow">RTK</div>
+<div class="text-2xl text-slate-400 select-none">──▶</div>
+<div class="px-4 py-3 rounded-lg bg-amber-500 text-white font-semibold shadow">3 lignes</div>
+<div class="text-2xl text-slate-400 select-none">──▶</div>
+<div class="px-4 py-3 rounded-lg bg-red-600 text-white font-semibold shadow">IA</div>
+
+</div>
 
 </v-click>
 

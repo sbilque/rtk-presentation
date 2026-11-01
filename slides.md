@@ -19,7 +19,7 @@ mdc: true
 ### Installez-le une fois — il raccourcit tout seul ce que lisent Claude, Copilot et les autres
 
 <div class="abs-br m-6 text-sm opacity-60">
-Pour développeurs débutants · 9 slides · ~5 minutes
+Pour développeurs débutants · 11 slides · ~5 minutes
 </div>
 
 <!--
@@ -535,6 +535,188 @@ Notes présentateur :
   find, ou appeler rtk read / rtk grep / rtk find directement.
 - Rester honnête sur les économies : estimations, pas comptage
   exact.
+-->
+
+---
+layout: default
+---
+
+# Pour les plus curieux : le voyage d'une commande
+
+<div class="text-center mt-1 text-lg opacity-80">
+
+Chaque commande traverse 6 étapes. Exemple de la doc : <code>rtk git log --oneline -5</code>
+
+</div>
+
+<div class="flex justify-center items-stretch gap-2 mt-8 text-xs">
+
+<v-click>
+
+<div class="w-32 p-3 border rounded-lg bg-blue-500/10">
+
+**1. PARSE**
+
+RTK lit la commande et ses options.
+
+</div>
+
+</v-click>
+
+<div class="self-center text-xl">→</div>
+
+<v-click>
+
+<div class="w-32 p-3 border rounded-lg bg-blue-500/10">
+
+**2. ROUTE**
+
+RTK choisit le module correspondant (git).
+
+</div>
+
+</v-click>
+
+<div class="self-center text-xl">→</div>
+
+<v-click>
+
+<div class="w-32 p-3 border rounded-lg bg-blue-500/10">
+
+**3. EXECUTE**
+
+RTK lance le vrai <code>git</code> et capture sa sortie.
+
+</div>
+
+</v-click>
+
+<div class="self-center text-xl">→</div>
+
+<v-click>
+
+<div class="w-32 p-3 border-2 border-green-500 rounded-lg bg-green-500/10">
+
+**4. FILTER**
+
+RTK compresse la sortie. <b>Le cœur de l'outil.</b>
+
+</div>
+
+</v-click>
+
+<div class="self-center text-xl">→</div>
+
+<v-click>
+
+<div class="w-32 p-3 border rounded-lg bg-blue-500/10">
+
+**5. PRINT**
+
+La version courte est affichée.
+
+</div>
+
+</v-click>
+
+<div class="self-center text-xl">→</div>
+
+<v-click>
+
+<div class="w-32 p-3 border rounded-lg bg-blue-500/10">
+
+**6. TRACK**
+
+L'économie est enregistrée.
+
+</div>
+
+</v-click>
+
+</div>
+
+<v-click>
+
+<div class="mt-10 mx-auto w-fit p-4 border-l-4 border-green-500 bg-green-500/10 rounded-r-lg text-sm">
+
+Et concrètement, pour <code>rtk git log --oneline -5</code> :
+
+```text
+Sortie de git      : 500 caractères
+Après FILTER       :  20 caractères → « 5 commits, +142/-89 »
+Économie           : −96 %
+```
+
+</div>
+
+</v-click>
+
+<div class="mt-4 text-xs opacity-60 text-center">
+Source : <a href="https://github.com/rtk-ai/rtk/blob/master/docs/contributing/ARCHITECTURE.md">documentation d'architecture de RTK</a>
+</div>
+
+<!--
+Notes présentateur :
+
+- Slide optionnelle pour les curieux : dérouler le pipeline lentement,
+  une étape par clic.
+- Le point important : RTK n'empêche pas la commande de s'exécuter,
+  il filtre sa SORTIE.
+- L'exemple chiffré vient de la doc d'architecture : 500 caractères
+  → 20, soit −96 %.
+-->
+
+---
+layout: default
+---
+
+# Pour les plus curieux : les recettes de filtrage
+
+<div class="mt-2 text-sm">
+
+| Recette | Exemple | Réduction annoncée |
+| --- | --- | --- |
+| Compter au lieu de lister | `git log` → « 5 commits, +142/-89 » | 90–99 % |
+| Montrer les échecs seulement | 100 tests → « 2 failed : … » | 94–99 % |
+| Regrouper en arbre | `ls` → « src/ ├─ lib/ (12) » | 50–70 % |
+| Garder le résultat final | installation → « ✓ Downloaded » | 85–95 % |
+
+</div>
+
+<v-click>
+
+<div class="mt-4 p-3 border rounded-lg text-sm">
+
+**Où sont stockées les économies ?** Estimation : ~4 caractères ≈ 1 token. Historique dans une base SQLite (<code>~/.local/share/rtk/history.db</code>), conservée 90 jours — c'est ce que lit <code>rtk gain</code>.
+
+</div>
+
+</v-click>
+
+<v-click>
+
+<div class="mt-4 p-3 border-l-4 border-orange-500 bg-orange-500/10 rounded-r-lg text-sm">
+
+🛡️ <b>En cas de souci</b> : filtre en échec → sortie originale renvoyée ; codes de retour préservés ; ~5 à 15 ms de surcoût par commande.
+
+</div>
+
+</v-click>
+
+<div class="mt-3 text-xs opacity-60 text-center">
+Source : <a href="https://github.com/rtk-ai/rtk/blob/master/docs/contributing/ARCHITECTURE.md">documentation d'architecture de RTK</a>
+</div>
+
+<!--
+Notes présentateur :
+
+- Les recettes de filtrage : montrer que c'est du bon sens appliqué
+  systématiquement (compter, ne garder que les échecs, faire des
+  arbres...).
+- L'estimation 4 caractères/token explique pourquoi les chiffres
+  de rtk gain sont des estimations.
+- Fail-safe : RTK ne casse jamais une commande qui marche.
+- Source : docs/contributing/ARCHITECTURE.md du dépôt rtk-ai/rtk
 -->
 
 ---

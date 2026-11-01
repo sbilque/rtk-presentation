@@ -1,6 +1,6 @@
 # RTK — Présentation pour développeurs débutants (Slidev)
 
-Présentation de 9 slides (~5 minutes) expliquant **RTK** ([Rust Token Killer](https://github.com/rtk-ai/rtk)) :
+Présentation de 11 slides (~5 minutes) expliquant **RTK** ([Rust Token Killer](https://github.com/rtk-ai/rtk)) :
 l'outil qui raccourcit ce que les commandes renvoient à votre assistant IA (Claude Code,
 Copilot, Cursor…), pour économiser des tokens.
 
@@ -16,7 +16,12 @@ Ton : direct, concret, orienté usage — pour développeurs débutants.
 6. **Activation** — une commande par assistant (`rtk init -g`, `--copilot`, `--gemini`…)
 7. **Commandes du quotidien** — `rtk gain`, `rtk discover`, `rtk bypass`… avec cas d'usage
 8. **Les bons réflexes** — ce qui est filtré, ce qui ne l'est pas, limites des estimations
-9. **À vous de jouer** — démarrer avec `rtk init -g`
+9. **Pour les plus curieux (1/2)** — le voyage d'une commande : pipeline PARSE → ROUTE → EXECUTE → FILTER → PRINT → TRACK, exemple chiffré 500 → 20 caractères (−96 %)
+10. **Pour les plus curieux (2/2)** — recettes de filtrage, suivi des économies (SQLite, 90 jours), fail-safe et performances
+11. **À vous de jouer** — démarrer avec `rtk init -g`
+
+Les slides « Pour les plus curieux » s'appuient sur la
+[documentation d'architecture du projet](https://github.com/rtk-ai/rtk/blob/master/docs/contributing/ARCHITECTURE.md).
 
 Chaque slide contient des notes présentateur (mode présentation : touche `P`).
 Animations : révélations progressives à chaque slide (`v-click`).

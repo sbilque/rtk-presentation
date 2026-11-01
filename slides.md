@@ -131,22 +131,32 @@ RTK s'intercale entre vos commandes et l'IA, et renvoie une version raccourcie d
 
 <v-click>
 
-```text
-              SANS RTK
-┌──────────┐          ┌──────────────┐          ┌──────┐
-│ git status│ ───────▶ │ 40 lignes   │ ───────▶ │  IA  │
-└──────────┘          └──────────────┘          └──────┘
+```mermaid {theme:'base'}
+graph LR
+    git[<b>git status</b>] --> ia[<b>40 lignes</b>] --> ai[<b>IA</b>]
+    classDef git fill:#94a3b8,stroke:#fff,color:#fff
+    classDef ia fill:#ef4444,stroke:#fff,color:#fff
+    classDef ai fill:#ef4444,stroke:#fff,color:#fff
+    git|git
+    ia|ia
+    ai|ai
 ```
 
 </v-click>
 
 <v-click>
 
-```text
-                            AVEC RTK
-┌──────────┐   ┌──────┐   ┌──────────────┐   ┌──────┐
-│ git status│──▶│ RTK  │──▶│  3 lignes   │──▶│  IA  │
-└──────────┘   └──────┘   └──────────────┘   └──────┘
+```mermaid {theme:'base'}
+graph LR
+    git[<b>git status</b>] --> rtk[<b>RTK</b>] --> ai[<b>3 lignes</b>] --> ai2[<b>IA</b>]
+    classDef git fill:#94a3b8,stroke:#fff,color:#fff
+    classDef rtk fill:#22c55e,stroke:#fff,color:#fff
+    classDef ai fill:#f59e0b,stroke:#fff,color:#fff
+    classDef ai2 fill:#ef4444,stroke:#fff,color:#fff
+    git|git
+    rtk|rtk
+    ai|ai
+    ai2|ai2
 ```
 
 </v-click>
@@ -642,9 +652,9 @@ L'économie est enregistrée.
 Et concrètement, pour <code>rtk git log --oneline -5</code> :
 
 ```text
-Sortie de git      : 500 caractères
-Après FILTER       :  20 caractères → « 5 commits, +142/-89 »
-Économie           : −96 %
+Sortie de git         : 500 caractères
+Après FILTER          :  20 caractères → « 5 commits, +142/-89 »
+Économie              : −96 %
 ```
 
 </div>

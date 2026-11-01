@@ -1,12 +1,11 @@
 ---
 # Titre & thème
 theme: default
-title: "RTK — moins de texte à faire lire à l'IA"
+title: "RTK — des commandes plus courtes pour votre assistant IA"
 info: |
-  Présentation de vulgarisation (5 slides, ~3 minutes) de RTK,
-  l'outil qui réduit le volume de texte que les commandes
-  transmettent à l'assistant IA — et donc les tokens consommés.
-  Public : grands débutants et non-techniciens.
+  Présentation Slidev pour dévelopseurs débutants : ce que fait RTK,
+  un exemple réel avant/après, l'installation (RHEL, Windows 11, WSL2)
+  et les commandes du quotidien.
 class: text-center
 highlighter: shiki
 drawings:
@@ -15,151 +14,82 @@ transition: slide-left
 mdc: true
 ---
 
-# RTK : moins de texte à faire lire à l'IA
+# RTK : des commandes plus courtes pour votre assistant IA
 
-### L'outil qui économise les tokens, simplement expliqué
+### Installez-le une fois — il raccourcit tout seul ce que lisent Claude, Copilot et les autres
 
 <div class="abs-br m-6 text-sm opacity-60">
-Présentation grand public · 5 slides · ~3 minutes
+Pour développeurs débutants · 9 slides · ~5 minutes
 </div>
 
 <!--
 Notes présentateur :
 
-- Accueil. Objectif : comprendre en 3 minutes ce que fait RTK,
-  comment il se déclenche, et où sont les économies.
-- Fil conducteur : RTK optimise le **contexte** fourni à l'IA en
-  filtrant les résultats de commandes ; il ne se contente pas de
-  raccourcir votre demande.
-- Sources principales : documentation officielle RTK
-  (https://www.rtk-ai.app/docs/) et README du projet
-  (https://github.com/rtk-ai/rtk).
+- Objectif : en 5 minutes, savoir ce que fait RTK, l'installer
+  et l'utiliser au quotidien.
+- RTK = un petit programme qui s'intercale entre vos commandes
+  et l'assistant IA, pour lui transmettre des résultats plus courts.
+- Sources : documentation officielle https://www.rtk-ai.app/docs/
+  et README https://github.com/rtk-ai/rtk
 -->
 
 ---
 layout: default
 ---
 
-# Comment ça marche ? Le filtre entre les outils et l'assistant
+# Le problème : l'IA lit trop
+
+<div class="text-center text-lg mt-2">
+
+Vous demandez : « <b>Vérifie les changements du projet.</b> »
+
+</div>
 
 <v-click>
 
-L'IA lit du texte sous forme de petites unités : les **tokens**.
-RTK réduit le volume des résultats de commandes qu'elle reçoit.
-
-</v-click>
-
-<div class="grid grid-cols-2 gap-6 mt-8">
+<div class="grid grid-cols-2 gap-6 mt-6 items-center">
 
 <div>
 
-### Sans RTK
+L'assistant lance <code>git status</code> et envoie le résultat à l'IA :
 
 ```text
-┌─────────────┐   ┌─────────────┐   ┌──────┐
-│    Outil    │──▶│   Rapport   │──▶│  IA  │
-│  (ex: git)  │   │  détaillé   │   │      │
-└─────────────┘   └─────────────┘   └──────┘
-```
+On branch main
+Your branch is up to date with 'origin/main'.
 
-<div class="text-sm opacity-70 mt-2">
-L'IA doit tout lire — y compris le superflu.
-</div>
+Changes not staged for commit:
+  modified:   src/app.py
+  modified:   src/utils.py
+
+Untracked files:
+  notes.txt
+
+no changes added to commit
+```
 
 </div>
 
 <div>
 
-### Avec RTK
-
 <v-click>
 
-```text
-┌─────────────┐   ┌──────┐   ┌──────────┐   ┌──────┐
-│    Outil    │──▶│ RTK  │──▶│ Résultat │──▶│  IA  │
-│  (ex: git)  │   │      │   │ compact  │   │      │
-└─────────────┘   └──────┘   └──────────┘   └──────┘
-```
+<div class="p-4 border-l-4 border-red-500 bg-red-500/10 rounded-r-lg">
 
-<div class="text-sm opacity-70 mt-2">
-RTK retire le bruit, l'IA lit l'essentiel.
+L'IA lit <b>toutes</b> ces lignes.
+
 </div>
 
 </v-click>
 
-</div>
-
-</div>
-
 <v-click>
 
-<div class="mt-10 p-4 border-l-4 border-green-500 bg-green-500/10 rounded-r-lg">
-💡 <b>L'idée clé</b> : retirer du bruit, plutôt que raccourcir votre demande.
-Comme un surligneur dans un long rapport : seules les lignes utiles sont transmises.
+<div class="mt-4 p-4 border-l-4 border-red-500 bg-red-500/10 rounded-r-lg">
+
+Or l'essentiel tient en 3 lignes : <b>2 fichiers modifiés, 1 fichier nouveau.</b>
+
 </div>
 
 </v-click>
-
-<!--
-Notes présentateur :
-
-- Analogie : « On ne change pas la destination du voyage : on réduit
-  ce qu'on transporte pour y arriver. » (valise débarrassée du superflu)
-- RTK = Rust Token Killer : un filtre qui compresse la sortie des
-  commandes avant qu'elle n'atteigne l'IA.
-- Source : documentation officielle, https://www.rtk-ai.app/docs/
--->
-
----
-layout: default
----
-
-# Comment se déclenche-t-il ? Automatiquement, via un « hook »
-
-<div class="text-center mt-4">
-
-<v-click>
-
-```text
-💬 Vous demandez :
-   « Vérifie les changements du projet. »
-                    ↓
-🤖 L'assistant lance une commande prise en charge.
-                    ↓
-⚙️ Un déclencheur automatique (le « hook ») la fait passer par RTK.
-                    ↓
-📋 RTK filtre le résultat ; l'IA lit la version compacte.
-```
-
-</v-click>
-
-</div>
-
-<v-click>
-
-<div class="grid grid-cols-3 gap-4 mt-10 text-sm">
-
-<div class="p-4 border rounded-lg">
-
-**1. Installation**
-
-RTK s'installe une fois, puis se connecte à l'assistant.
-
-</div>
-
-<div class="p-4 border rounded-lg">
-
-**2. Intégration**
-
-Exemple avec Claude Code : intégration automatique documentée.
-
-</div>
-
-<div class="p-4 border rounded-lg">
-
-**3. À l'usage**
-
-Pas besoin d'écrire « utilise RTK » à chaque demande.
 
 </div>
 
@@ -169,8 +99,8 @@ Pas besoin d'écrire « utilise RTK » à chaque demande.
 
 <v-click>
 
-<div class="mt-8 p-4 border-l-4 border-orange-500 bg-orange-500/10 rounded-r-lg">
-⚠️ Le hook agit sur les commandes prises en charge, pas sur tous les outils de l'assistant.
+<div class="mt-8 p-4 border-l-4 border-green-500 bg-green-500/10 rounded-r-lg text-center">
+💡 C'est comme recevoir un rapport de 40 pages pour apprendre qu'une phrase a changé.
 </div>
 
 </v-click>
@@ -178,157 +108,76 @@ Pas besoin d'écrire « utilise RTK » à chaque demande.
 <!--
 Notes présentateur :
 
-- Après installation, RTK fonctionne de manière transparente pour
-  l'utilisateur.
-- Le déclencheur automatique s'appelle un « hook » : quand l'assistant
-  exécute une commande prise en charge, sa sortie passe par RTK.
-- Source : README du projet, https://github.com/rtk-ai/rtk
+- Le point clé : l'IA « paie » (en tokens) chaque ligne qu'elle lit.
+- L'exemple officiel de la documentation : git status, 40 lignes
+  lues contre 3 après filtrage.
+- Tout le reste (aide de git, rappels de commandes) est du bruit
+  pour l'IA.
 -->
 
 ---
 layout: default
 ---
 
-# Sans / avec : le même besoin, moins de volume
+# Ce que fait RTK, en une phrase
 
-<div class="text-center mt-2 opacity-80 text-sm">
-Exemple de la documentation officielle : vérifier l'état des fichiers du projet avec la commande <code>git status</code>.
-</div>
+<div class="text-center text-lg mt-4">
 
-<div class="grid grid-cols-2 gap-8 mt-8">
-
-<div>
-
-### Sans RTK
-
-```text
-─────────────────────────
- Rapport brut de git status
-─────────────────────────
- 40 lignes à lire par l'IA
-─────────────────────────
-```
-
-<div class="mt-4 flex items-center gap-2">
-
-<div class="flex-1 h-6 bg-red-400/70 rounded-full overflow-hidden">
-<div class="h-full bg-red-500 w-full"></div>
-</div>
-
-<span>▰▰▰▰▰▰▰▰▰▰</span>
+RTK s'intercale entre vos commandes et l'IA, et renvoie une version raccourcie des résultats.
 
 </div>
 
-</div>
-
-<div>
-
-### Avec RTK
+<div class="text-center mt-8">
 
 <v-click>
 
 ```text
-─────────────────────────
- Résultat compact (RTK)
-─────────────────────────
- 3 lignes à lire par l'IA
-─────────────────────────
+              SANS RTK
+┌──────────┐          ┌──────────────┐          ┌──────┐
+│ git status│ ───────▶ │ 40 lignes   │ ───────▶ │  IA  │
+└──────────┘          └──────────────┘          └──────┘
 ```
-
-<div class="mt-4 flex items-center gap-2">
-
-<div class="flex-1 h-6 bg-green-400/70 rounded-full overflow-hidden">
-<div class="h-full bg-green-500 w-[8%]"></div>
-</div>
-
-<span>▰</span>
-
-</div>
 
 </v-click>
 
-</div>
-
-</div>
-
-<v-click>
-
-<div class="mt-8 p-4 border-l-4 border-blue-500 bg-blue-500/10 rounded-r-lg text-sm">
-📊 Les nombres (40 lignes → 3 lignes) viennent de l'exemple officiel. Les barres illustrent le volume :
-ce n'est pas une reproduction de la sortie, ni une garantie pour toutes les commandes.
-</div>
-
-</v-click>
-
-<!--
-Notes présentateur :
-
-- Insister : même demande, même résultat utile, mais l'IA lit 3 lignes
-  au lieu de 40.
-- Rappeler que le gain dépend de la commande — c'est un exemple
-  officiel, pas une promesse universelle.
-- Source : https://www.rtk-ai.app/docs/
--->
-
----
-layout: default
----
-
-# Où est le gain dans le « prompt engineering » ?
-
-<div class="text-center mt-4">
-
-L'IA ne lit pas seulement votre demande : elle reçoit aussi les consignes, l'historique et les résultats des outils.
-
-</div>
-
-<div class="grid grid-cols-2 gap-8 mt-8 text-sm">
-
-<div>
-
-### Sans RTK
-
-```text
-Demande
-+ consignes
-+ historique
-+ [résultat volumineux]   ← occupe la place
-```
-
-</div>
-
-<div>
-
-### Avec RTK
-
 <v-click>
 
 ```text
-Demande
-+ consignes
-+ historique
-+ [résultat compact]      ← RTK agit ici
+                            AVEC RTK
+┌──────────┐   ┌──────┐   ┌──────────────┐   ┌──────┐
+│ git status│──▶│ RTK  │──▶│  3 lignes   │──▶│  IA  │
+└──────────┘   └──────┘   └──────────────┘   └──────┘
 ```
 
 </v-click>
 
 </div>
 
-</div>
-
 <v-click>
 
-<div class="grid grid-cols-2 gap-6 mt-10 text-sm">
+<div class="grid grid-cols-3 gap-4 mt-8 text-sm">
 
 <div class="p-4 border rounded-lg">
 
-**Bien écrire sa demande** clarifie ce qu'on veut — c'est le rôle du prompt engineering.
+**Votre demande**
+
+Ne change pas d'un mot.
+
+</div>
+
+<div class="p-4 border rounded-lg">
+
+**RTK travaille**
+
+En silence, à chaque commande.
 
 </div>
 
 <div class="p-4 border rounded-lg border-green-500/50 bg-green-500/10">
 
-**RTK intervient sur un autre levier** : réduire le texte que les commandes ajoutent au contexte.
+**Le résultat**
+
+L'IA lit l'essentiel, pas le bruit.
 
 </div>
 
@@ -339,7 +188,7 @@ Demande
 <v-click>
 
 <div class="mt-6 text-center font-semibold">
-Les deux approches sont complémentaires.
+Votre demande reste la même. C'est la réponse des commandes qui raccourcit.
 </div>
 
 </v-click>
@@ -347,31 +196,298 @@ Les deux approches sont complémentaires.
 <!--
 Notes présentateur :
 
-- Le contexte de l'IA = demande + consignes + historique + résultats
-  des outils. RTK cible la dernière partie.
-- Ne pas confondre : écrire un bon prompt et filtrer les résultats
-  d'outils sont deux leviers distincts et complémentaires.
-- Source : README du projet, https://github.com/rtk-ai/rtk
+- Une seule idée à retenir : RTK raccourcit ce que les commandes
+  renvoient, pas ce que vous écrivez.
+- RTK intercepte les commandes shell et compresse leur sortie
+  avant que l'assistant ne la lise.
+- Source : README, https://github.com/rtk-ai/rtk
 -->
 
 ---
 layout: default
 ---
 
-# Les avantages immédiats… et la bonne mesure
+# Exemple réel : git status, avant / après
 
 <div class="grid grid-cols-2 gap-8 mt-4">
 
 <div>
 
-### ✅ Ce que RTK apporte dès maintenant
+### Avant (sans RTK)
+
+```text
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  modified:   src/app.py
+  modified:   src/utils.py
+
+Untracked files:
+  notes.txt
+
+no changes added to commit
+```
+
+<div class="mt-3 flex items-center gap-3">
+
+<div class="flex-1 h-6 bg-red-400/40 rounded-full overflow-hidden">
+
+<div class="h-full bg-red-500 w-full"></div>
+
+</div>
+
+<b>11 lignes</b>
+
+</div>
+
+</div>
+
+<div>
+
+### Après (avec RTK)
 
 <v-click>
 
-- Moins de texte issu des commandes à transmettre à l'IA.
-- Moins de place occupée par ces résultats dans son contexte.
-- Un filtrage automatique sur les commandes prises en charge.
-- Un suivi des économies estimées avec la commande <code class="whitespace-nowrap">rtk gain</code>.
+```text
+2 modifiés : src/app.py, src/utils.py
+1 non suivi : notes.txt
+```
+
+<div class="mt-3 flex items-center gap-3">
+
+<div class="flex-1 h-6 bg-green-400/40 rounded-full overflow-hidden">
+
+<div class="h-full bg-green-500 w-[20%]"></div>
+
+</div>
+
+<b>2 lignes</b>
+
+</div>
+
+<div class="mt-6 text-sm opacity-70">
+
+Même information utile : les fichiers et leur état. RTK regroupe par état et retire le reste.
+
+</div>
+
+</v-click>
+
+</div>
+
+</div>
+
+<v-click>
+
+<div class="mt-6 p-4 border-l-4 border-blue-500 bg-blue-500/10 rounded-r-lg text-sm">
+📊 Exemple officiel de la documentation : 40 lignes → 3 lignes sur cet usage. Le gain exact dépend de votre projet. RTK filtre aussi <code>git diff</code>, <code>git log</code>, <code>npm test</code>, <code>pytest</code>, <code>docker ps</code> et 100+ commandes.
+</div>
+
+</v-click>
+
+<!--
+Notes présentateur :
+
+- Montrer le contraste : même info utile, 8 fois moins de texte.
+- RTK gère 100+ commandes : git, GitHub CLI, npm, pytest, ruff,
+  cargo, docker, kubectl, terraform...
+- Source : https://www.rtk-ai.app/docs/
+-->
+
+---
+layout: default
+---
+
+# Installation : une commande par environnement
+
+<div class="mt-2">
+
+### RHEL / CentOS / Fedora
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/master/install.sh | sh
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+```
+
+### Windows 11 (PowerShell)
+
+```powershell
+winget install rtk-ai.rtk
+rtk init -g   # dans un NOUVEAU terminal
+```
+
+### WSL2 (Ubuntu)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/master/install.sh | sh
+rtk init -g
+```
+
+</div>
+
+<v-click>
+
+<div class="mt-4 p-3 border-l-4 border-green-500 bg-green-500/10 rounded-r-lg text-sm">
+
+✅ <b>Vérifiez</b> : <code>rtk --version</code> doit afficher une version, et <code>rtk gain</code> doit montrer le tableau des économies. Scripts prêts à l'emploi dans <code>scripts/</code> de ce dépôt.
+
+</div>
+
+</v-click>
+
+<!--
+Notes présentateur :
+
+- Sur RHEL, le script officiel curl fonctionne directement ;
+  seule la ligne PATH est spécifique.
+- Sur Windows, winget puis rtk init -g dans un NOUVEAU terminal
+  (pour que le PATH soit pris en compte).
+- ripgrep est optionnel : winget install BurntSushi.ripgrep.MSVC
+  (utile pour certains filtres).
+- Source : https://www.rtk-ai.app/docs/getting-started/installation/
+-->
+
+---
+layout: default
+---
+
+# Activer RTK dans votre assistant : une seule fois
+
+<div class="text-center mt-2 text-lg">
+
+Une seule commande, et le filtrage devient automatique. Rien à écrire « rtk » dans vos demandes.
+
+</div>
+
+<div class="mt-4 text-sm">
+
+| Votre assistant | Commande d'activation |
+| --- | --- |
+| Claude Code | `rtk init -g` |
+| GitHub Copilot (VS Code) | `rtk init -g --copilot` |
+| Gemini CLI | `rtk init -g --gemini` |
+| Codex (OpenAI) | `rtk init -g --codex` |
+| Cursor | `rtk init -g --agent cursor` |
+
+</div>
+
+<v-click>
+
+<div class="mt-6 p-4 border-l-4 border-green-500 bg-green-500/10 rounded-r-lg">
+
+✅ Ensuite, quand l'assistant lance une commande shell, RTK la traite <b>en silence</b>. L'assistant reçoit la version courte, sans que vous n'ayez rien à faire.
+
+</div>
+
+</v-click>
+
+<v-click>
+
+<div class="mt-4 text-sm opacity-70 text-center">
+Autres assistants pris en charge : Windsurf, Cline, OpenCode, Kilo Code, Kimi, Factory Droid, Trae… (liste complète dans le README de RTK)
+</div>
+
+</v-click>
+
+<!--
+Notes présentateur :
+
+- « -g » = global : une seule fois pour tous vos projets.
+- Sans -g : installation pour le projet en cours uniquement
+  (rtk init), utile pour tester.
+- Le mécanisme d'activation s'appelle un « hook » : un déclencheur
+  automatique. Pas besoin d'en retenir le nom.
+- Source : README, https://github.com/rtk-ai/rtk
+-->
+
+---
+layout: default
+---
+
+# Les commandes RTK au quotidien
+
+<div class="mt-2 text-sm">
+
+| Vous voulez… | Commande |
+| --- | --- |
+| Voir vos économies depuis le début | `rtk gain` |
+| Voir la tendance des 30 derniers jours | `rtk gain --graph` |
+| Trouver les commandes filtrées trop rarement | `rtk discover` |
+| Lancer une commande sans filtrage (rare) | `rtk bypass <commande>` |
+| Filtrer un fichier à la main | `rtk read <fichier>` |
+| Chercher dans le code, version compacte | `rtk grep <motif>` |
+
+</div>
+
+<v-click>
+
+<div class="grid grid-cols-3 gap-4 mt-4 text-xs">
+
+<div class="p-3 border rounded-lg">
+
+**Lundi matin**
+
+`rtk gain --graph` : un coup d'œil sur la semaine.
+
+</div>
+
+<div class="p-3 border rounded-lg">
+
+**Avant un commit**
+
+`rtk discover` : ai-je manqué des économies ?
+
+</div>
+
+<div class="p-3 border rounded-lg">
+
+**Débogage précis**
+
+`rtk bypass git diff` : la sortie complète, une fois.
+
+</div>
+
+</div>
+
+</v-click>
+
+<v-click>
+
+<div class="mt-4 p-3 border-l-4 border-orange-500 bg-orange-500/10 rounded-r-lg text-sm">
+⚠️ Au quotidien, vous n'utilisez <b>presque rien</b> : le filtrage est automatique. Ces commandes servent à regarder, pas à travailler.
+</div>
+
+</v-click>
+
+<!--
+Notes présentateur :
+
+- Message principal : zéro effort au quotidien.
+- rtk discover liste les commandes qui auraient mérité le filtrage.
+- rtk gain --history : historique récent ; rtk gain --daily :
+  jour par jour ; --all --format json : export pour dashboard.
+- Source : README, https://github.com/rtk-ai/rtk
+-->
+
+---
+layout: default
+---
+
+# Les bons réflexes (et les limites)
+
+<div class="grid grid-cols-2 gap-8 mt-4">
+
+<div>
+
+### ✅ À retenir
+
+<v-click>
+
+- RTK filtre les commandes **shell** : `git`, `npm`, `pytest`, `docker`…
+- Tout est **automatique** après `rtk init -g`.
+- Les économies se suivent avec `rtk gain`.
+- Un doute sur un résultat ? `rtk bypass <commande>` donne la version complète.
 
 </v-click>
 
@@ -379,25 +495,21 @@ layout: default
 
 <div>
 
-### ⚠️ Attention au raccourci !
+### ⚠️ À connaître
 
 <v-click>
 
-<div class="p-4 border-l-4 border-orange-500 bg-orange-500/10 rounded-r-lg">
-
-Un résultat fortement réduit ≠ une facture réduite d'autant.
-
-Les demandes, l'historique et les réponses comptent aussi.
-
-</div>
+- Les outils intégrés des assistants (lecture de fichiers, recherche) ne passent pas par RTK. Pour les filtrer, demandez plutôt des commandes : `cat`, `rg`, `find`.
 
 </v-click>
 
 <v-click>
 
-<div class="mt-4 text-sm opacity-80">
+<div class="mt-4 p-4 border-l-4 border-orange-500 bg-orange-500/10 rounded-r-lg text-sm">
 
-Les nombres de tokens affichés par RTK sont des **estimations**, pas un comptage exact.
+Les chiffres affichés par `rtk gain` sont des **estimations**.
+
+Une sortie réduite de 90 % ne veut pas dire une facture réduite de 90 % : vos demandes et les réponses de l'IA comptent aussi.
 
 </div>
 
@@ -407,7 +519,7 @@ Les nombres de tokens affichés par RTK sont des **estimations**, pas un comptag
 
 </div>
 
-<div class="mt-10 flex justify-center gap-6 text-xs opacity-60">
+<div class="mt-8 flex justify-center gap-6 text-xs opacity-60">
 
 <div>Sources : <a href="https://www.rtk-ai.app/docs/">Documentation officielle RTK</a> · <a href="https://github.com/rtk-ai/rtk">README du projet</a></div>
 
@@ -416,13 +528,13 @@ Les nombres de tokens affichés par RTK sont des **estimations**, pas un comptag
 <!--
 Notes présentateur :
 
-- Résumer : moins de volume transmis, filtrage automatique, suivi des
-  économies avec `rtk gain`.
-- Nuance importante à donner à l'oral : les économies affichées sont
-  des estimations ; la facture dépend aussi des demandes, de
-  l'historique et des réponses.
-- Sources : https://www.rtk-ai.app/docs/ et
-  https://github.com/rtk-ai/rtk
+- Point technique le plus important : RTK n'agit que sur les
+  commandes shell. Les outils intégrés (Read, Grep, Glob) ne
+  passent pas par lui.
+- Solution simple : demander à l'assistant d'utiliser cat / rg /
+  find, ou appeler rtk read / rtk grep / rtk find directement.
+- Rester honnête sur les économies : estimations, pas comptage
+  exact.
 -->
 
 ---
@@ -430,19 +542,37 @@ layout: center
 class: text-center
 ---
 
-# Merci !
+# À vous de jouer
 
-<div class="mt-6 text-lg opacity-80">
-RTK : moins de texte à faire lire à l'IA, automatiquement.
+<div class="mt-4 text-lg opacity-80">
+
+Une commande pour tout démarrer :
+
 </div>
 
-<div class="mt-10 flex justify-center gap-8 text-sm opacity-70">
+<div class="mt-4 font-mono text-2xl">
+
+`rtk init -g`
+
+</div>
+
+<div class="mt-8 flex justify-center gap-8 text-sm opacity-70">
 
 <div>📚 <a href="https://www.rtk-ai.app/docs/">Documentation officielle</a></div>
-<div>🐙 <a href="https://github.com/rtk-ai/rtk">Code source sur GitHub</a></div>
+<div>🐙 <a href="https://github.com/rtk-ai/rtk">Code source</a></div>
+<div>⚙️ <a href="https://github.com/sbilque/rtk-presentation">Scripts d'installation de ce dépôt</a></div>
 
 </div>
 
 <div class="abs-br m-6 text-xs opacity-40">
-Présentation générée avec Slidev · Public : grands débutants
+Présentation Slidev · Pour développeurs débutants
 </div>
+
+<!--
+Notes présentateur :
+
+- Conclusion : une commande, un essai, et on regarde rtk gain
+  une semaine plus tard.
+- Proposer un exercice : installer RTK, lancer un assistant sur
+  un projet git, comparer rtk gain avant/après.
+-->
